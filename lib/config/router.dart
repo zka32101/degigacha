@@ -7,6 +7,9 @@ import '../presentation/screens/login_bonus_screen.dart';
 import '../presentation/screens/daily_spin_screen.dart';
 import '../presentation/screens/character_progression_screen.dart';
 import '../presentation/screens/event_gacha_screen.dart';
+import '../presentation/screens/event_calendar_screen.dart';
+import '../presentation/screens/story_list_screen.dart';
+import '../presentation/screens/story_reader_screen.dart';
 
 import '../presentation/riverpod/auth_notifier.dart';
 
@@ -64,6 +67,25 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             path: 'event-gacha',
             builder: (context, state) => EventGachaScreen(
               userId: userId,
+            ),
+          ),
+          GoRoute(
+            path: 'event-calendar',
+            builder: (context, state) => EventCalendarScreen(
+              userId: userId,
+            ),
+          ),
+          GoRoute(
+            path: 'story-list',
+            builder: (context, state) => StoryListScreen(
+              userId: userId,
+            ),
+          ),
+          GoRoute(
+            path: 'story-reader/:storyId',
+            builder: (context, state) => StoryReaderScreen(
+              userId: userId,
+              storyId: state.pathParameters['storyId']!,
             ),
           ),
           // TODO: Add more routes
