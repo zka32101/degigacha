@@ -5,6 +5,8 @@ import '../../data/repositories/daily_spin_repository.dart';
 import '../../data/repositories/event_gacha_repository.dart';
 import '../../data/repositories/gacha_repository.dart';
 import '../../data/repositories/login_bonus_repository.dart';
+import '../../data/repositories/seasonal_event_repository.dart';
+import '../../data/repositories/story_content_repository.dart';
 import '../../data/repositories/user_repository.dart';
 import '../../domain/usecases/auth_usecase.dart';
 import '../../domain/usecases/gacha_usecase.dart';
@@ -15,6 +17,8 @@ import 'character_progression_notifier.dart';
 import 'daily_spin_notifier.dart';
 import 'event_gacha_notifier.dart';
 import 'login_bonus_notifier.dart';
+import 'seasonal_event_notifier.dart';
+import 'story_content_notifier.dart';
 
 // ========== Service Providers ==========
 
@@ -59,6 +63,17 @@ final characterProgressionRepositoryProvider =
 /// EventGachaRepository を提供するプロバイダー
 final eventGachaRepositoryProvider = Provider<EventGachaRepository>((ref) {
   return EventGachaRepository(FirebaseFirestore.instance);
+});
+
+/// SeasonalEventRepository を提供するプロバイダー
+final seasonalEventRepositoryProvider =
+    Provider<SeasonalEventRepository>((ref) {
+  return SeasonalEventRepository(FirebaseFirestore.instance);
+});
+
+/// StoryContentRepository を提供するプロバイダー
+final storyContentRepositoryProvider = Provider<StoryContentRepository>((ref) {
+  return StoryContentRepository(FirebaseFirestore.instance);
 });
 
 // ========== Use Case Providers ==========
@@ -170,6 +185,60 @@ final eventSpinResultProvider =
     StateNotifierProvider<EventSpinResultNotifier, AsyncValue<EventSpinResult?>>((ref) {
   final repository = ref.watch(eventGachaRepositoryProvider);
   return EventSpinResultNotifier(repository);
+});
+
+// ========== Seasonal Event State Management ==========
+
+/// シーズナルイベントプロバイダー
+final seasonalEventProvider =
+    StateNotifierProvider<SeasonalEventNotifier, AsyncValue<SeasonalEvent?>>((ref) {
+  final repository = ref.watch(seasonalEventRepositoryProvider);
+  return SeasonalEventNotifier(repository);
+});
+
+/// シーズナルイベント一覧プロバイダー
+final seasonalEventListProvider = StateNotifierProvider<
+    SeasonalEventListNotifier,
+    AsyncValue<List<SeasonalEvent>>>((ref) {
+  final repository = ref.watch(seasonalEventRepositoryProvider);
+  return SeasonalEventListNotifier(repository);
+});
+
+// ========== Story Content State Management ==========
+
+/// ストーリーコンテンツリストプロバイダー
+final storyContentListProvider = StateNotifierProvider<
+    StoryContentNotifier,
+    AsyncValue<List<StoryContent>>>((ref) {
+  final repository = ref.watch(storyContentRepositoryProvider);
+  return StoryContentNotifier(repository);
+});
+
+/// 単一ストーリーコンテンツプロバイダー
+final singleStoryContentProvider = StateNotifierProvider.family<
+    SingleStoryContentNotifier,
+    AsyncValue<StoryContent?>,
+    String>((ref, storyId) {
+  final repository = ref.watch(storyContentRepositoryProvider);
+  return SingleStoryContentNotifier(repository);
+});
+
+/// ユーザーストーリー進捗プロバイダー
+final userStoryProgressProvider = StateNotifierProvider.family<
+    UserStoryProgressNotifier,
+    AsyncValue<UserStoryProgress?>,
+    (String, String)>((ref, params) {
+  final repository = ref.watch(storyContentRepositoryProvider);
+  return UserStoryProgressNotifier(repository);
+});
+
+/// ユーザーストーリー進捗リストプロバイダー
+final userStoryProgressListProvider = StateNotifierProvider.family<
+    UserStoryProgressListNotifier,
+    AsyncValue<List<UserStoryProgress>>,
+    String>((ref, userId) {
+  final repository = ref.watch(storyContentRepositoryProvider);
+  return UserStoryProgressListNotifier(repository);
 });
 
 // ========== Gacha Items State Management ==========
