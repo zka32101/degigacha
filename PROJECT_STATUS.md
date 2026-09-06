@@ -1,8 +1,8 @@
 # Digital Gacha Collection - Project Status
 
-**Last Updated**: 2026-09-01 (Phase 6A/6B Implementation)  
-**Project Phase**: 6/17 (Phase 6A UI/UX完成、Phase 6B ユーザー定着施策進行中)  
-**Overall Progress**: ~50% Complete (Phases 0-2 + 4-6A完成、Phase 6B進行中)
+**Last Updated**: 2026-09-06 (Phase 6A/6B Complete)  
+**Project Phase**: 6/17 (Phase 6A UI/UX完成、Phase 6B ユーザー定着施策完成)  
+**Overall Progress**: ~55% Complete (Phases 0-2、4-6A、6B完成)
 
 ---
 
@@ -104,7 +104,7 @@ Advanced screen improvements with animations, interactive controls, and probabil
 - `lib/presentation/screens/collection_display_screen_enhanced.dart` (662 lines)
 - `lib/presentation/screens/gacha_odds_screen.dart` (588 lines)
 
-#### **Phase 6B: User Retention Features** (🔄 IN PROGRESS)
+#### **Phase 6B: User Retention Features** (✅ COMPLETE)
 Engagement and retention mechanics with daily rewards, limited-time events, and character progression.
 
 **What's been implemented**:
@@ -112,28 +112,21 @@ Engagement and retention mechanics with daily rewards, limited-time events, and 
 - ✅ DailySpinSystem (rotating wheel animation, probability-based results)
 - ✅ EventGachaSystem (limited-time characters, increased SSR probability)
 - ✅ CharacterProgressionSystem (level/experience tracking, skill unlocking)
+- ✅ Navigation routing with GoRouter integration
+- ✅ HomeScreen feature grid navigation
 
 **Deliverables** (Phase 6B):
 - **Login Bonus**: `login_bonus_model.dart`, `login_bonus_repository.dart`, `login_bonus_notifier.dart`, `login_bonus_screen.dart`
 - **Daily Spin**: `daily_spin_model.dart`, `daily_spin_repository.dart`, `daily_spin_notifier.dart`, `daily_spin_screen.dart`
-- **Event Gacha**: `event_gacha_model.dart`, `event_gacha_repository.dart`
+- **Event Gacha**: `event_gacha_model.dart`, `event_gacha_repository.dart`, `event_gacha_notifier.dart`, `event_gacha_screen.dart` (550+ lines)
 - **Character Progression**: `character_progression_model.dart`, `character_progression_repository.dart`, `character_progression_notifier.dart`, `character_progression_screen.dart`
-- **Providers**: `lib/presentation/riverpod/providers.dart` (updated with 5+ new providers)
+- **Navigation**: `lib/config/router.dart` (with 4 new Phase 6B routes)
+- **Home Screen**: Updated with 2x2 feature grid card navigation
+- **Providers**: `lib/presentation/riverpod/providers.dart` (5+ new providers for Phase 6B systems)
 
 ---
 
 ### 🔄 In Progress / Blocked
-
-#### **Phase 6B: User Retention Features** (✅ COMPLETE)
-**Status**: ✅ COMPLETE - Ready for next phase
-
-All four retention systems are now implemented and integrated with Firestore:
-- Login Bonus (4-tier progression system)
-- Daily Spin (rotating wheel with probability distribution)
-- Event Gacha (limited-time character events)
-- Character Progression (level/skill system)
-
-**Next Action**: Implement EventGachaNotifier & EventGachaScreen for UI completion, then proceed with integration testing.
 
 #### **Phase 3: AI Recognition Validation Testing** (Weeks 3-4)
 **Status**: ⏳ BLOCKING PHASE - Must complete for Phase 7+
