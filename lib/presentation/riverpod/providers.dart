@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/repositories/character_progression_repository.dart';
 import '../../data/repositories/daily_spin_repository.dart';
+import '../../data/repositories/event_gacha_repository.dart';
 import '../../data/repositories/gacha_repository.dart';
 import '../../data/repositories/login_bonus_repository.dart';
 import '../../data/repositories/user_repository.dart';
@@ -12,6 +13,7 @@ import '../../services/auth_service.dart';
 import 'auth_notifier.dart';
 import 'character_progression_notifier.dart';
 import 'daily_spin_notifier.dart';
+import 'event_gacha_notifier.dart';
 import 'login_bonus_notifier.dart';
 
 // ========== Service Providers ==========
@@ -52,6 +54,11 @@ final dailySpinRepositoryProvider = Provider<DailySpinRepository>((ref) {
 final characterProgressionRepositoryProvider =
     Provider<CharacterProgressionRepository>((ref) {
   return CharacterProgressionRepository(FirebaseFirestore.instance);
+});
+
+/// EventGachaRepository を提供するプロバイダー
+final eventGachaRepositoryProvider = Provider<EventGachaRepository>((ref) {
+  return EventGachaRepository(FirebaseFirestore.instance);
 });
 
 // ========== Use Case Providers ==========
@@ -148,6 +155,22 @@ final singleCharacterProgressionProvider = StateNotifierProvider.family<
     return SingleCharacterProgressionNotifier(repository);
   },
 );
+
+// ========== Event Gacha State Management ==========
+
+/// イベントガチャプロバイダー
+final eventGachaProvider =
+    StateNotifierProvider<EventGachaNotifier, AsyncValue<EventGacha?>>((ref) {
+  final repository = ref.watch(eventGachaRepositoryProvider);
+  return EventGachaNotifier(repository);
+});
+
+/// イベントスピン結果プロバイダー
+final eventSpinResultProvider =
+    StateNotifierProvider<EventSpinResultNotifier, AsyncValue<EventSpinResult?>>((ref) {
+  final repository = ref.watch(eventGachaRepositoryProvider);
+  return EventSpinResultNotifier(repository);
+});
 
 // ========== Gacha Items State Management ==========
 
