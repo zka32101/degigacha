@@ -127,6 +127,117 @@ class HomeScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 24),
 
+            // Features Section
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Text(
+                'ゲーム機能',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+            ),
+            const SizedBox(height: 12),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: GridView.count(
+                crossAxisCount: 2,
+                crossAxisSpacing: 12,
+                mainAxisSpacing: 12,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                children: [
+                  // ログインボーナス
+                  Card(
+                    child: InkWell(
+                      onTap: () => context.go('/login-bonus'),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.card_giftcard,
+                            size: 40,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            'ログインボーナス',
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.labelMedium,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  // 日次スピン
+                  Card(
+                    child: InkWell(
+                      onTap: () => context.go('/daily-spin'),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.casino,
+                            size: 40,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            '日次スピン',
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.labelMedium,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  // キャラクター育成
+                  Card(
+                    child: InkWell(
+                      onTap: () => context.go('/character-progression'),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.person,
+                            size: 40,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            'キャラクター',
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.labelMedium,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  // イベントガチャ
+                  Card(
+                    child: InkWell(
+                      onTap: () => context.go('/event-gacha'),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.celebration,
+                            size: 40,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            'イベント',
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.labelMedium,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 24),
+
             // Collection Items Section
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
