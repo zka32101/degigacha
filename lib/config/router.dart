@@ -10,6 +10,8 @@ import '../presentation/screens/event_gacha_screen.dart';
 import '../presentation/screens/event_calendar_screen.dart';
 import '../presentation/screens/story_list_screen.dart';
 import '../presentation/screens/story_reader_screen.dart';
+import '../presentation/screens/item_detail_screen.dart';
+import '../presentation/screens/series_completion_screen.dart';
 
 import '../presentation/riverpod/auth_notifier.dart';
 
@@ -86,6 +88,13 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             builder: (context, state) => StoryReaderScreen(
               userId: userId,
               storyId: state.pathParameters['storyId']!,
+            ),
+          ),
+          GoRoute(
+            path: 'series-completion/:seriesId',
+            builder: (context, state) => SeriesCompletionScreen(
+              userId: userId,
+              seriesId: state.pathParameters['seriesId']!,
             ),
           ),
           // TODO: Add more routes
