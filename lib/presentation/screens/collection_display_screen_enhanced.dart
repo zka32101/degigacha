@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../riverpod/providers.dart';
 import '../../data/models/gacha_item_model.dart';
+import 'item_detail_screen.dart';
 
 /// コレクション表示画面（改善版 - Phase 6A）
 ///
@@ -366,6 +367,15 @@ class _CollectionDisplayScreenEnhancedState
               label: const Text('ガチャを撮る'),
             ),
           ),
+          const SizedBox(height: 12),
+          SizedBox(
+            height: 48,
+            child: OutlinedButton.icon(
+              onPressed: () => context.go('/series-completion/${widget.seriesId}'),
+              icon: const Icon(Icons.assessment),
+              label: const Text('シリーズ完成度を見る'),
+            ),
+          ),
         ],
       ),
     );
@@ -476,7 +486,12 @@ class _CollectionDisplayScreenEnhancedState
   Widget _buildItemCard(BuildContext context, int index) {
     return GestureDetector(
       onTap: () {
-        // TODO: 詳細画面へ遷移
+        final mockItem = _createMockGachaItem(index);
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => ItemDetailScreen(item: mockItem),
+          ),
+        );
       },
       child: Card(
         child: Column(
@@ -527,7 +542,12 @@ class _CollectionDisplayScreenEnhancedState
   Widget _buildItemListTile(BuildContext context, int index) {
     return GestureDetector(
       onTap: () {
-        // TODO: 詳細画面へ遷移
+        final mockItem = _createMockGachaItem(index);
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => ItemDetailScreen(item: mockItem),
+          ),
+        );
       },
       child: Card(
         child: ListTile(
@@ -597,6 +617,23 @@ class _CollectionDisplayScreenEnhancedState
       default:
         return Colors.grey;
     }
+  }
+
+  /// ユーティリティ: モック GachaItem を作成
+  GachaItem _createMockGachaItem(int index) {
+    final rarities = [Rarity.n, Rarity.r, Rarity.sr, Rarity.ssr];
+    final rarity = rarities[index % rarities.length];
+
+    return GachaItem(
+      id: 'item_${widget.seriesId}_$index',
+      itemName: 'アイテム ${index + 1}',
+      series: widget.seriesId,
+      rarity: rarity,
+      dateAdded: DateTime.now().subtract(Duration(days: index)),
+      acquisitionMethod: 'ガチャ',
+      duplicateCount: index % 3,
+      notes: 'このアイテムについてのメモです。',
+    );
   }
 }
 
