@@ -13,6 +13,7 @@ import '../presentation/screens/story_reader_screen.dart';
 import '../presentation/screens/item_detail_screen.dart';
 import '../presentation/screens/series_completion_screen.dart';
 import '../presentation/screens/duplicate_management_screen.dart';
+import '../presentation/screens/trading_screen.dart';
 
 import '../presentation/riverpod/auth_notifier.dart';
 
@@ -101,6 +102,12 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: 'duplicate-management',
             builder: (context, state) => DuplicateManagementScreen(
+              userId: userId,
+            ),
+          ),
+          GoRoute(
+            path: 'trading',
+            builder: (context, state) => TradingScreen(
               userId: userId,
             ),
           ),
