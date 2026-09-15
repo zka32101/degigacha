@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../data/models/duplicate_management_model.dart';
 import '../../data/repositories/character_progression_repository.dart';
 import '../../data/repositories/daily_spin_repository.dart';
+import '../../data/repositories/duplicate_management_repository.dart';
 import '../../data/repositories/event_gacha_repository.dart';
 import '../../data/repositories/gacha_repository.dart';
 import '../../data/repositories/login_bonus_repository.dart';
@@ -15,6 +17,7 @@ import '../../services/auth_service.dart';
 import 'auth_notifier.dart';
 import 'character_progression_notifier.dart';
 import 'daily_spin_notifier.dart';
+import 'duplicate_management_notifier.dart';
 import 'event_gacha_notifier.dart';
 import 'login_bonus_notifier.dart';
 import 'seasonal_event_notifier.dart';
@@ -74,6 +77,12 @@ final seasonalEventRepositoryProvider =
 /// StoryContentRepository を提供するプロバイダー
 final storyContentRepositoryProvider = Provider<StoryContentRepository>((ref) {
   return StoryContentRepository(FirebaseFirestore.instance);
+});
+
+/// DuplicateManagementRepository を提供するプロバイダー
+final duplicateManagementRepositoryProvider =
+    Provider<DuplicateManagementRepository>((ref) {
+  return DuplicateManagementRepository(FirebaseFirestore.instance);
 });
 
 // ========== Use Case Providers ==========
@@ -239,6 +248,76 @@ final userStoryProgressListProvider = StateNotifierProvider.family<
     String>((ref, userId) {
   final repository = ref.watch(storyContentRepositoryProvider);
   return UserStoryProgressListNotifier(repository);
+});
+
+// ========== Duplicate Management State Management ==========
+
+/// 重複検出プロバイダー
+final duplicateDetectionProvider = StateNotifierProvider.family<
+    DuplicateDetectionNotifier,
+    AsyncValue<List<DuplicateItem>>,
+    String>((ref, userId) {
+  final repository = ref.watch(duplicateManagementRepositoryProvider);
+  return DuplicateDetectionNotifier(repository: repository, userId: userId);
+});
+
+/// 重複統計プロバイダー
+final duplicateStatisticsProvider = StateNotifierProvider.family<
+    DuplicateStatisticsNotifier,
+    AsyncValue<DuplicateStatistics>,
+    String>((ref, userId) {
+  final repository = ref.watch(duplicateManagementRepositoryProvider);
+  return DuplicateStatisticsNotifier(repository: repository, userId: userId);
+});
+
+/// シリーズ別重複プロバイダー
+final seriesDuplicatesProvider = StateNotifierProvider.family<
+    SeriesDuplicatesNotifier,
+    AsyncValue<List<DuplicateItem>>,
+    (String, String)>((ref, params) {
+  final repository = ref.watch(duplicateManagementRepositoryProvider);
+  return SeriesDuplicatesNotifier(
+    repository: repository,
+    userId: params.$1,
+    seriesId: params.$2,
+  );
+});
+
+/// レアリティ別重複プロバイダー
+final rarityDuplicatesProvider = StateNotifierProvider.family<
+    RarityDuplicatesNotifier,
+    AsyncValue<List<DuplicateItem>>,
+    (String, String)>((ref, params) {
+  final repository = ref.watch(duplicateManagementRepositoryProvider);
+  return RarityDuplicatesNotifier(
+    repository: repository,
+    userId: params.$1,
+    rarity: params.$2,
+  );
+});
+
+/// 受取交換リクエストプロバイダー
+final receivedExchangeRequestsProvider = StateNotifierProvider.family<
+    ReceivedExchangeRequestsNotifier,
+    AsyncValue<List<DuplicateExchangeRequest>>,
+    String>((ref, userId) {
+  final repository = ref.watch(duplicateManagementRepositoryProvider);
+  return ReceivedExchangeRequestsNotifier(
+    repository: repository,
+    userId: userId,
+  );
+});
+
+/// 送信交換リクエストプロバイダー
+final sentExchangeRequestsProvider = StateNotifierProvider.family<
+    SentExchangeRequestsNotifier,
+    AsyncValue<List<DuplicateExchangeRequest>>,
+    String>((ref, userId) {
+  final repository = ref.watch(duplicateManagementRepositoryProvider);
+  return SentExchangeRequestsNotifier(
+    repository: repository,
+    userId: userId,
+  );
 });
 
 // ========== Gacha Items State Management ==========
