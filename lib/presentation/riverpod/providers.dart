@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/models/duplicate_management_model.dart';
+import '../../data/models/trading_model.dart';
 import '../../data/repositories/character_progression_repository.dart';
 import '../../data/repositories/daily_spin_repository.dart';
 import '../../data/repositories/duplicate_management_repository.dart';
 import '../../data/repositories/event_gacha_repository.dart';
+import '../../data/repositories/trading_repository.dart';
 import '../../data/repositories/gacha_repository.dart';
 import '../../data/repositories/login_bonus_repository.dart';
 import '../../data/repositories/seasonal_event_repository.dart';
@@ -20,6 +22,7 @@ import 'daily_spin_notifier.dart';
 import 'duplicate_management_notifier.dart';
 import 'event_gacha_notifier.dart';
 import 'login_bonus_notifier.dart';
+import 'trading_notifier.dart';
 import 'seasonal_event_notifier.dart';
 import 'story_content_notifier.dart';
 
@@ -83,6 +86,11 @@ final storyContentRepositoryProvider = Provider<StoryContentRepository>((ref) {
 final duplicateManagementRepositoryProvider =
     Provider<DuplicateManagementRepository>((ref) {
   return DuplicateManagementRepository(FirebaseFirestore.instance);
+});
+
+/// TradingRepository を提供するプロバイダー
+final tradingRepositoryProvider = Provider<TradingRepository>((ref) {
+  return TradingRepository(FirebaseFirestore.instance);
 });
 
 // ========== Use Case Providers ==========
@@ -315,6 +323,68 @@ final sentExchangeRequestsProvider = StateNotifierProvider.family<
     String>((ref, userId) {
   final repository = ref.watch(duplicateManagementRepositoryProvider);
   return SentExchangeRequestsNotifier(
+    repository: repository,
+    userId: userId,
+  );
+});
+
+// ========== Trading State Management ==========
+
+/// 受け取ったトレード要求プロバイダー
+final receivedTradeRequestsProvider = StateNotifierProvider.family<
+    ReceivedTradeRequestsNotifier,
+    AsyncValue<List<TradeRequest>>,
+    String>((ref, userId) {
+  final repository = ref.watch(tradingRepositoryProvider);
+  return ReceivedTradeRequestsNotifier(
+    repository: repository,
+    userId: userId,
+  );
+});
+
+/// 送信したトレード要求プロバイダー
+final sentTradeRequestsProvider = StateNotifierProvider.family<
+    SentTradeRequestsNotifier,
+    AsyncValue<List<TradeRequest>>,
+    String>((ref, userId) {
+  final repository = ref.watch(tradingRepositoryProvider);
+  return SentTradeRequestsNotifier(
+    repository: repository,
+    userId: userId,
+  );
+});
+
+/// トレード履歴プロバイダー
+final tradeHistoryProvider = StateNotifierProvider.family<
+    TradeHistoryNotifier,
+    AsyncValue<List<TradeHistory>>,
+    String>((ref, userId) {
+  final repository = ref.watch(tradingRepositoryProvider);
+  return TradeHistoryNotifier(
+    repository: repository,
+    userId: userId,
+  );
+});
+
+/// トレード統計プロバイダー
+final tradeStatisticsProvider = StateNotifierProvider.family<
+    TradeStatisticsNotifier,
+    AsyncValue<TradeStatistics>,
+    String>((ref, userId) {
+  final repository = ref.watch(tradingRepositoryProvider);
+  return TradeStatisticsNotifier(
+    repository: repository,
+    userId: userId,
+  );
+});
+
+/// トレード提案プロバイダー
+final tradeSuggestionsProvider = StateNotifierProvider.family<
+    TradeSuggestionsNotifier,
+    AsyncValue<List<TradeSuggestion>>,
+    String>((ref, userId) {
+  final repository = ref.watch(tradingRepositoryProvider);
+  return TradeSuggestionsNotifier(
     repository: repository,
     userId: userId,
   );
