@@ -12,6 +12,7 @@ import '../presentation/screens/story_list_screen.dart';
 import '../presentation/screens/story_reader_screen.dart';
 import '../presentation/screens/item_detail_screen.dart';
 import '../presentation/screens/series_completion_screen.dart';
+import '../presentation/screens/duplicate_management_screen.dart';
 
 import '../presentation/riverpod/auth_notifier.dart';
 
@@ -95,6 +96,12 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             builder: (context, state) => SeriesCompletionScreen(
               userId: userId,
               seriesId: state.pathParameters['seriesId']!,
+            ),
+          ),
+          GoRoute(
+            path: 'duplicate-management',
+            builder: (context, state) => DuplicateManagementScreen(
+              userId: userId,
             ),
           ),
           // TODO: Add more routes
