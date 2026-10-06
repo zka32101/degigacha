@@ -2,11 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/models/duplicate_management_model.dart';
 import '../../data/models/trading_model.dart';
+import '../../data/models/marketplace_model.dart';
 import '../../data/repositories/character_progression_repository.dart';
 import '../../data/repositories/daily_spin_repository.dart';
 import '../../data/repositories/duplicate_management_repository.dart';
 import '../../data/repositories/event_gacha_repository.dart';
 import '../../data/repositories/trading_repository.dart';
+import '../../data/repositories/marketplace_repository.dart';
 import '../../data/repositories/gacha_repository.dart';
 import '../../data/repositories/login_bonus_repository.dart';
 import '../../data/repositories/seasonal_event_repository.dart';
@@ -23,6 +25,7 @@ import 'duplicate_management_notifier.dart';
 import 'event_gacha_notifier.dart';
 import 'login_bonus_notifier.dart';
 import 'trading_notifier.dart';
+import 'marketplace_notifier.dart';
 import 'seasonal_event_notifier.dart';
 import 'story_content_notifier.dart';
 
@@ -91,6 +94,11 @@ final duplicateManagementRepositoryProvider =
 /// TradingRepository を提供するプロバイダー
 final tradingRepositoryProvider = Provider<TradingRepository>((ref) {
   return TradingRepository(FirebaseFirestore.instance);
+});
+
+/// MarketplaceRepository を提供するプロバイダー
+final marketplaceRepositoryProvider = Provider<MarketplaceRepository>((ref) {
+  return MarketplaceRepository(FirebaseFirestore.instance);
 });
 
 // ========== Use Case Providers ==========
@@ -388,6 +396,60 @@ final tradeSuggestionsProvider = StateNotifierProvider.family<
     repository: repository,
     userId: userId,
   );
+});
+
+// ========== Marketplace State Management ==========
+
+/// すべてのリスティングプロバイダー
+final allListingsProvider = StateNotifierProvider<
+    AllListingsNotifier,
+    AsyncValue<List<MarketListing>>>((ref) {
+  final repository = ref.watch(marketplaceRepositoryProvider);
+  return AllListingsNotifier(repository: repository);
+});
+
+/// レアリティ別リスティングプロバイダー
+final rarityListingsProvider = StateNotifierProvider.family<
+    RarityListingsNotifier,
+    AsyncValue<List<MarketListing>>,
+    String>((ref, rarity) {
+  final repository = ref.watch(marketplaceRepositoryProvider);
+  return RarityListingsNotifier(repository: repository);
+});
+
+/// シリーズ別リスティングプロバイダー
+final seriesListingsProvider = StateNotifierProvider.family<
+    SeriesListingsNotifier,
+    AsyncValue<List<MarketListing>>,
+    String>((ref, series) {
+  final repository = ref.watch(marketplaceRepositoryProvider);
+  return SeriesListingsNotifier(repository: repository);
+});
+
+/// セラーのリスティングプロバイダー
+final sellerListingsProvider = StateNotifierProvider.family<
+    SellerListingsNotifier,
+    AsyncValue<List<MarketListing>>,
+    String>((ref, sellerId) {
+  final repository = ref.watch(marketplaceRepositoryProvider);
+  return SellerListingsNotifier(repository: repository);
+});
+
+/// トランザクション履歴プロバイダー
+final transactionHistoryProvider = StateNotifierProvider.family<
+    TransactionHistoryNotifier,
+    AsyncValue<List<MarketTransaction>>,
+    String>((ref, userId) {
+  final repository = ref.watch(marketplaceRepositoryProvider);
+  return TransactionHistoryNotifier(repository: repository);
+});
+
+/// マーケットプレイス統計プロバイダー
+final marketplaceStatisticsProvider = StateNotifierProvider<
+    MarketplaceStatisticsNotifier,
+    AsyncValue<MarketplaceStatistics>>((ref) {
+  final repository = ref.watch(marketplaceRepositoryProvider);
+  return MarketplaceStatisticsNotifier(repository: repository);
 });
 
 // ========== Gacha Items State Management ==========
