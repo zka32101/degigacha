@@ -1,8 +1,8 @@
 # Digital Gacha Collection - Project Status
 
-**Last Updated**: 2026-09-15 (Phase 6A/6B/6C/6D/6E/6F Complete)  
-**Project Phase**: 6/17 (Phase 6A UI/UX完成、Phase 6B ユーザー定着施策完成、Phase 6C コンテンツ戦略完成、Phase 6D コレクション管理完成、Phase 6E 重複管理完成、Phase 6F 取引機能基盤完成)  
-**Overall Progress**: ~72% Complete (Phases 0-2、4-6A、6B、6C、6D、6E、6F完成)
+**Last Updated**: 2026-10-06 (Phase 6A/6B/6C/6D/6E/6F/6G Complete)  
+**Project Phase**: 6/17 (Phase 6A UI/UX完成、Phase 6B ユーザー定着施策完成、Phase 6C コンテンツ戦略完成、Phase 6D コレクション管理完成、Phase 6E 重複管理完成、Phase 6F 取引機能基盤完成、Phase 6G マーケットプレイス完成)  
+**Overall Progress**: ~75% Complete (Phases 0-2、4-6A、6B、6C、6D、6E、6F、6G完成)
 
 ---
 
@@ -204,6 +204,32 @@ User-to-user trading system with request management, history tracking, and match
 - **Providers**: Added 5 new providers to `lib/presentation/riverpod/providers.dart`
 - **Navigation**: Updated `lib/config/router.dart` with /trading route
 
+#### **Phase 6G: Marketplace & Trading Post UI** (✅ COMPLETE)
+Comprehensive item marketplace system with listing, purchasing, and market statistics.
+
+**What's been implemented**:
+- ✅ MarketListing, MarketTransaction, SellerRating, MarketplaceStatistics models
+- ✅ MarketplaceRepository with search/filter/purchase operations
+- ✅ Listing creation and management
+- ✅ Bidirectional purchase history (buyer and seller perspectives)
+- ✅ Seller rating system with average calculation
+- ✅ 6 StateNotifiers for marketplace state management
+- ✅ MarketplaceScreen with 3 tabs (all items, purchase history, statistics)
+- ✅ Advanced filtering by rarity (SSR/SR/R/N)
+- ✅ Purchase dialog with quantity adjustment
+- ✅ Market statistics dashboard with price analysis
+- ✅ Seller information and rating display
+- ✅ Empty state handling and FadeTransition animations
+- ✅ Rarity-based color coding (purple/orange/blue/grey)
+
+**Deliverables** (Phase 6G):
+- **Models**: `marketplace_model.dart` (4 Freezed models with DTO extensions)
+- **Repository**: `marketplace_repository.dart` (full CRUD, search, statistics, ratings)
+- **Notifiers**: `marketplace_notifier.dart` (6 notifiers for state management)
+- **UI Screen**: `marketplace_screen.dart` (550+ lines, 3-tab interface)
+- **Providers**: Added 6 new providers to `lib/presentation/riverpod/providers.dart`
+- **Navigation**: Updated `lib/config/router.dart` with /marketplace route
+
 ---
 
 ### 🔄 In Progress / Blocked
@@ -283,7 +309,8 @@ Full implementation of user onboarding flow and collection display components wi
 - ✅ 6D: Collection Management UI (ItemDetail, SeriesCompletion integration)
 - ✅ 6E: Duplicate Item Management (DuplicateDetection, Statistics, Exchange system)
 - ✅ 6F: Trading Foundation (TradeRequest, TradingScreen, Statistics, Suggestions)
-- ⏳ 6G-6H: Additional features
+- ✅ 6G: Marketplace & Trading Post (Listings, Purchase, Statistics)
+- ⏳ 6H-6I: Additional features
 
 **Remaining in Phase 6-11**:
 - Trading functionality (user-to-user trading)
