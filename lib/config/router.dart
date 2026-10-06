@@ -16,6 +16,8 @@ import '../presentation/screens/duplicate_management_screen.dart';
 import '../presentation/screens/trading_screen.dart';
 import '../presentation/screens/marketplace_screen.dart';
 import '../presentation/screens/shop_screen.dart';
+import '../presentation/screens/profile_screen.dart';
+import '../presentation/screens/friends_screen.dart';
 
 import '../presentation/riverpod/auth_notifier.dart';
 
@@ -122,6 +124,18 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: 'shop',
             builder: (context, state) => ShopScreen(
+              userId: userId,
+            ),
+          ),
+          GoRoute(
+            path: 'profile',
+            builder: (context, state) => ProfileScreen(
+              userId: userId,
+            ),
+          ),
+          GoRoute(
+            path: 'friends',
+            builder: (context, state) => FriendsScreen(
               userId: userId,
             ),
           ),

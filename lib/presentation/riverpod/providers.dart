@@ -11,11 +11,13 @@ import '../../data/repositories/event_gacha_repository.dart';
 import '../../data/repositories/trading_repository.dart';
 import '../../data/repositories/marketplace_repository.dart';
 import '../../data/repositories/payment_repository.dart';
+import '../../data/repositories/user_profile_repository.dart';
 import '../../data/repositories/gacha_repository.dart';
 import '../../data/repositories/login_bonus_repository.dart';
 import '../../data/repositories/seasonal_event_repository.dart';
 import '../../data/repositories/story_content_repository.dart';
 import '../../data/repositories/user_repository.dart';
+import '../../data/models/user_profile_model.dart';
 import '../../domain/usecases/auth_usecase.dart';
 import '../../domain/usecases/gacha_usecase.dart';
 import '../../services/ai_service.dart';
@@ -29,6 +31,7 @@ import 'login_bonus_notifier.dart';
 import 'trading_notifier.dart';
 import 'marketplace_notifier.dart';
 import 'payment_notifier.dart';
+import 'user_profile_notifier.dart';
 import 'seasonal_event_notifier.dart';
 import 'story_content_notifier.dart';
 
@@ -107,6 +110,11 @@ final marketplaceRepositoryProvider = Provider<MarketplaceRepository>((ref) {
 /// PaymentRepository を提供するプロバイダー
 final paymentRepositoryProvider = Provider<PaymentRepository>((ref) {
   return PaymentRepository(FirebaseFirestore.instance);
+});
+
+/// UserProfileRepository を提供するプロバイダー
+final userProfileRepositoryProvider = Provider<UserProfileRepository>((ref) {
+  return UserProfileRepository(FirebaseFirestore.instance);
 });
 
 // ========== Use Case Providers ==========
@@ -520,6 +528,53 @@ final subscriptionProvider = StateNotifierProvider.family<
     String>((ref, userId) {
   final repository = ref.watch(paymentRepositoryProvider);
   return SubscriptionNotifier(repository: repository);
+});
+
+// ========== User Profile State Management ==========
+
+/// ユーザープロフィールプロバイダー
+final userProfileProvider = StateNotifierProvider.family<
+    UserProfileNotifier,
+    AsyncValue<UserProfile>,
+    String>((ref, userId) {
+  final repository = ref.watch(userProfileRepositoryProvider);
+  return UserProfileNotifier(repository: repository, userId: userId);
+});
+
+/// ユーザーフレンドリストプロバイダー
+final userFriendsProvider = StateNotifierProvider.family<
+    UserFriendsNotifier,
+    AsyncValue<List<Friend>>,
+    String>((ref, userId) {
+  final repository = ref.watch(userProfileRepositoryProvider);
+  return UserFriendsNotifier(repository: repository, userId: userId);
+});
+
+/// フレンドリクエストプロバイダー
+final friendRequestsProvider = StateNotifierProvider.family<
+    FriendRequestsNotifier,
+    AsyncValue<List<FriendRequest>>,
+    String>((ref, userId) {
+  final repository = ref.watch(userProfileRepositoryProvider);
+  return FriendRequestsNotifier(repository: repository, userId: userId);
+});
+
+/// ユーザー統計プロバイダー
+final userStatsProvider = StateNotifierProvider.family<
+    UserStatsNotifier,
+    AsyncValue<UserStats>,
+    String>((ref, userId) {
+  final repository = ref.watch(userProfileRepositoryProvider);
+  return UserStatsNotifier(repository: repository, userId: userId);
+});
+
+/// ユーザー実績プロバイダー
+final userAchievementsProvider = StateNotifierProvider.family<
+    UserAchievementsNotifier,
+    AsyncValue<List<UserAchievement>>,
+    String>((ref, userId) {
+  final repository = ref.watch(userProfileRepositoryProvider);
+  return UserAchievementsNotifier(repository: repository, userId: userId);
 });
 
 // ========== Gacha Items State Management ==========

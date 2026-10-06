@@ -1,8 +1,8 @@
 # Digital Gacha Collection - Project Status
 
-**Last Updated**: 2026-10-06 (Phase 6A/6B/6C/6D/6E/6F/6G/6H Complete)  
-**Project Phase**: 6/17 (Phase 6A UI/UX完成、Phase 6B ユーザー定着施策完成、Phase 6C コンテンツ戦略完成、Phase 6D コレクション管理完成、Phase 6E 重複管理完成、Phase 6F 取引機能基盤完成、Phase 6G マーケットプレイス完成、Phase 6H 支払いシステム完成)  
-**Overall Progress**: ~77% Complete (Phases 0-2、4-6A、6B、6C、6D、6E、6F、6G、6H完成)
+**Last Updated**: 2026-10-06 (Phase 6A/6B/6C/6D/6E/6F/6G/6H/6I Complete)  
+**Project Phase**: 6/17 (Phase 6A UI/UX完成、Phase 6B ユーザー定着施策完成、Phase 6C コンテンツ戦略完成、Phase 6D コレクション管理完成、Phase 6E 重複管理完成、Phase 6F 取引機能基盤完成、Phase 6G マーケットプレイス完成、Phase 6H 支払いシステム完成、Phase 6I ユーザープロフィール＆ソーシャル機能完成)  
+**Overall Progress**: ~80% Complete (Phases 0-2、4-6A、6B、6C、6D、6E、6F、6G、6H、6I完成)
 
 ---
 
@@ -257,6 +257,33 @@ Comprehensive payment and monetization system with IAP, subscriptions, and promo
 - **Providers**: Added 7 new providers to `lib/presentation/riverpod/providers.dart`
 - **Navigation**: Updated `lib/config/router.dart` with /shop route
 
+#### **Phase 6I: User Profile & Social Features** (✅ COMPLETE)
+User profile management, friend system, and social engagement features.
+
+**What's been implemented**:
+- ✅ UserProfile, Friend, FriendRequest, UserStats, UserAchievement models
+- ✅ UserProfileRepository with profile management and friend operations
+- ✅ 5 StateNotifiers (UserProfile, Friends, FriendRequests, Stats, Achievements)
+- ✅ ProfileScreen with 3 tabs (profile info, statistics, achievements)
+- ✅ FriendsScreen with 2 tabs (friends list, friend requests)
+- ✅ Friend request accept/decline workflow
+- ✅ Bidirectional friend relationship management
+- ✅ Achievement unlock and retrieval system
+- ✅ User statistics tracking (trades, purchases, items obtained, series completed)
+- ✅ Profile editing with avatar, bio, preferences
+- ✅ Achievement badge display with detail modal
+- ✅ Empty state handling for all tabs
+- ✅ FadeTransition animations for smooth UX
+- ✅ Real-time profile/friend list updates
+
+**Deliverables** (Phase 6I):
+- **Models**: `user_profile_model.dart` (5 Freezed models with DTO extensions: UserProfile, Friend, FriendRequest, UserStats, UserAchievement)
+- **Repository**: `user_profile_repository.dart` (profile management, friend operations, statistics, achievements)
+- **Notifiers**: `user_profile_notifier.dart` (5 notifiers for state management)
+- **UI Screens**: `profile_screen.dart` (350+ lines, 3-tab interface), `friends_screen.dart` (280+ lines, 2-tab interface)
+- **Providers**: Added 5 new providers to `lib/presentation/riverpod/providers.dart`
+- **Navigation**: Updated `lib/config/router.dart` with /profile and /friends routes
+
 ---
 
 ### 🔄 In Progress / Blocked
@@ -329,7 +356,7 @@ Full implementation of user onboarding flow and collection display components wi
 ### Phase 6-11: Full Feature Set (In Progress)
 **Dependency**: Phase 3 PASS (≥85% accuracy) + Phase 6 Preview completion
 
-**Phase 6 - STARTED**:
+**Phase 6 - IN PROGRESS**:
 - ✅ 6A: UI/UX Enhancement (Capture, Collection, GachaOdds)
 - ✅ 6B: User Retention Features (LoginBonus, DailySpin, EventGacha, CharacterProgression)
 - ✅ 6C: Content Strategy (SeasonalEvent, StoryContent, EventCalendar, StoryReader, StoryList)
@@ -338,7 +365,8 @@ Full implementation of user onboarding flow and collection display components wi
 - ✅ 6F: Trading Foundation (TradeRequest, TradingScreen, Statistics, Suggestions)
 - ✅ 6G: Marketplace & Trading Post (Listings, Purchase, Statistics)
 - ✅ 6H: Payment System (IAP, Subscriptions, Promotions, Shop)
-- ⏳ 6I: Additional features
+- ✅ 6I: User Profile & Social Features (Profile, Friends, Achievements)
+- ⏳ 6J+: Additional features (Community, Guilds, etc.)
 
 **Remaining in Phase 6-11**:
 - Trading functionality (user-to-user trading)
@@ -635,18 +663,48 @@ Alpha/beta testing, app store submission, launch
 - Test implementation documentation
 - Test coverage metrics
 
+### ✅ Completed Phase 6I (User Profile & Social Features)
+
+**Core Implementation**:
+- UserProfile management with avatar, bio, preferences
+- Friend system with request/accept/decline workflow
+- Bidirectional friend relationships
+- User statistics tracking (trades, purchases, items, series)
+- Achievement unlocking and badge display
+- ProfileScreen with 3 tabs (profile, statistics, achievements)
+- FriendsScreen with 2 tabs (friends list, friend requests)
+
+**Comprehensive State Management**:
+- UserProfileNotifier for profile data and updates
+- UserFriendsNotifier for friend list management
+- FriendRequestsNotifier for request handling
+- UserStatsNotifier for statistics tracking
+- UserAchievementsNotifier for achievement management
+- 5 new providers in `lib/presentation/riverpod/providers.dart`
+
+**UI Components**:
+- ProfileScreen with TabBarView (350+ lines)
+  - Profile info display with avatar
+  - Statistics visualization (trades, purchases, items)
+  - Achievement grid with detail modals
+  - Preferences display (rarity, series)
+- FriendsScreen with TabBarView (280+ lines)
+  - Friends list with removal option
+  - Friend requests with accept/decline buttons
+  - Avatar display and mutual friends count
+
 ### 📊 Progress Update
-- **Overall**: 18% → 50% complete (Phase 6 now fully complete)
-- **Test Coverage**: 0% → ~20-25% (65+ new tests, targeting 30% by Phase 6+)
-- **Phase 6 Status**: ✅ COMPLETE (Ready for Phase 3 validation gate)
-- **Next Critical Phase**: Phase 3 AI Validation Testing (≥85% accuracy required)
-- **Timeline**: Phase 3 is blocking gate for Phase 6+ full features
+- **Overall**: 77% → 80% complete (Phase 6I now complete, 9/9 Phase 6 subphases done)
+- **Phase 6 Status**: ✅ COMPLETE (All 6A-6I features implemented)
+- **Test Coverage**: ~20-25% (coverage expansion planned in Phase 12-14)
+- **Next Phase**: Phase 6J+ (Community, Guilds) or move to Phase 12-14 (Testing & QA)
 
 ### 🎯 What's Ready to Use
-1. Complete onboarding flow with series selection
-2. Collection statistics and progress tracking
-3. Full test coverage (unit + widget)
-4. Firestore data management
-5. Navigation integration
-6. HomeScreen button placement
-7. All documentation updated
+1. Complete user profile management system
+2. Friend system with request workflow
+3. Achievement unlocking and tracking
+4. User statistics collection and display
+5. ProfileScreen and FriendsScreen UI
+6. All Phase 6 features fully integrated
+7. Navigation setup for /profile and /friends routes
+8. Riverpod state management for all user profile data
