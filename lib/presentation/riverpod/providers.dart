@@ -3,12 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/models/duplicate_management_model.dart';
 import '../../data/models/trading_model.dart';
 import '../../data/models/marketplace_model.dart';
+import '../../data/models/payment_model.dart';
 import '../../data/repositories/character_progression_repository.dart';
 import '../../data/repositories/daily_spin_repository.dart';
 import '../../data/repositories/duplicate_management_repository.dart';
 import '../../data/repositories/event_gacha_repository.dart';
 import '../../data/repositories/trading_repository.dart';
 import '../../data/repositories/marketplace_repository.dart';
+import '../../data/repositories/payment_repository.dart';
 import '../../data/repositories/gacha_repository.dart';
 import '../../data/repositories/login_bonus_repository.dart';
 import '../../data/repositories/seasonal_event_repository.dart';
@@ -26,6 +28,7 @@ import 'event_gacha_notifier.dart';
 import 'login_bonus_notifier.dart';
 import 'trading_notifier.dart';
 import 'marketplace_notifier.dart';
+import 'payment_notifier.dart';
 import 'seasonal_event_notifier.dart';
 import 'story_content_notifier.dart';
 
@@ -99,6 +102,11 @@ final tradingRepositoryProvider = Provider<TradingRepository>((ref) {
 /// MarketplaceRepository を提供するプロバイダー
 final marketplaceRepositoryProvider = Provider<MarketplaceRepository>((ref) {
   return MarketplaceRepository(FirebaseFirestore.instance);
+});
+
+/// PaymentRepository を提供するプロバイダー
+final paymentRepositoryProvider = Provider<PaymentRepository>((ref) {
+  return PaymentRepository(FirebaseFirestore.instance);
 });
 
 // ========== Use Case Providers ==========
@@ -450,6 +458,68 @@ final marketplaceStatisticsProvider = StateNotifierProvider<
     AsyncValue<MarketplaceStatistics>>((ref) {
   final repository = ref.watch(marketplaceRepositoryProvider);
   return MarketplaceStatisticsNotifier(repository: repository);
+});
+
+// ========== Payment State Management ==========
+
+/// IAP商品プロバイダー
+final iapProductsProvider = StateNotifierProvider<
+    IAPProductsNotifier,
+    AsyncValue<List<IAPProduct>>>((ref) {
+  final repository = ref.watch(paymentRepositoryProvider);
+  return IAPProductsNotifier(repository: repository);
+});
+
+/// カテゴリ別商品プロバイダー
+final categoryProductsProvider = StateNotifierProvider.family<
+    CategoryProductsNotifier,
+    AsyncValue<List<IAPProduct>>,
+    String>((ref, category) {
+  final repository = ref.watch(paymentRepositoryProvider);
+  return CategoryProductsNotifier(repository: repository);
+});
+
+/// ユーザー残高プロバイダー
+final userBalanceProvider = StateNotifierProvider.family<
+    UserBalanceNotifier,
+    AsyncValue<UserBalance?>,
+    String>((ref, userId) {
+  final repository = ref.watch(paymentRepositoryProvider);
+  return UserBalanceNotifier(repository: repository);
+});
+
+/// レシート履歴プロバイダー
+final receiptHistoryProvider = StateNotifierProvider.family<
+    ReceiptHistoryNotifier,
+    AsyncValue<List<Receipt>>,
+    String>((ref, userId) {
+  final repository = ref.watch(paymentRepositoryProvider);
+  return ReceiptHistoryNotifier(repository: repository);
+});
+
+/// 支払い統計プロバイダー
+final paymentStatisticsProvider = StateNotifierProvider<
+    PaymentStatisticsNotifier,
+    AsyncValue<PaymentStatistics>>((ref) {
+  final repository = ref.watch(paymentRepositoryProvider);
+  return PaymentStatisticsNotifier(repository: repository);
+});
+
+/// プロモーションコードプロバイダー
+final promotionCodeProvider = StateNotifierProvider<
+    PromotionCodeNotifier,
+    AsyncValue<PromotionCode?>>((ref) {
+  final repository = ref.watch(paymentRepositoryProvider);
+  return PromotionCodeNotifier(repository: repository);
+});
+
+/// サブスクリプションプロバイダー
+final subscriptionProvider = StateNotifierProvider.family<
+    SubscriptionNotifier,
+    AsyncValue<Subscription?>,
+    String>((ref, userId) {
+  final repository = ref.watch(paymentRepositoryProvider);
+  return SubscriptionNotifier(repository: repository);
 });
 
 // ========== Gacha Items State Management ==========
